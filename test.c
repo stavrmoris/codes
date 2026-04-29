@@ -16,3 +16,10 @@ grep -nA2 -B1 "vmlinuz-6.6.89-cix" /boot/grub/grub.cfg
 И снова пробуем
 reboot
 Выбирай тот же 6.6.89-cix в Advanced.
+
+
+
+mkdir -p /mnt/ssd
+mkdir -p /mnt/ssd-efi
+mount /dev/nvme0n1p3 /mnt/ssd
+mount /dev/nvme0n1p1 /mnt/ssd-efi
