@@ -1,5 +1,18 @@
-label 6.6.89-cix
-    kernel ../vmlinuz-6.6.89-cix
-    initrd ../initrd-6.6.89-cix.img
-    fdtdir ../dtb
-    append root=UUID=4a079867-3dd1-4fc0-9206-de0ccbba9a833 ro panic=30
+1. Проверь, виден ли SSD
+Выполни:
+
+lsblk -f
+Найди снова nvme0n1p3 и nvme0n1p1.
+
+2. Пересмонтируй SSD
+mkdir -p /mnt/ssd
+mkdir -p /mnt/ssd-efi
+mount /dev/nvme0n1p3 /mnt/ssd
+mount /dev/nvme0n1p1 /mnt/ssd-efi
+3. Проверь, что там появилось
+ls /mnt/ssd
+ls /mnt/ssd/boot
+ls /mnt/ssd/boot/grub
+4. И сразу сними рабочую конфигурацию
+cat /mnt/ssd/boot/extlinux/extlinux.conf 2>/dev/null || echo "no extlinux on ssd"
+grep -nA3 -B2 "6.6.89-cix" /mnt/ssd/boot/grub/grub.cfg
