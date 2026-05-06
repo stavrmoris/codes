@@ -34,3 +34,12 @@ echo 'SUBSYSTEM=="aipu", MODE="0666"' > /etc/udev/rules.d/99-aipu.rules
 echo "=== УСТАНОВКА ЗАВЕРШЕНА! ==="
 echo "Пожалуйста, перезагрузите устройство и в BIOS (CIX System Manager) выберите режим ACPI."
 echo "В меню GRUB выберите ядро 6.6.89-cix."
+
+
+    echo "=== [3/4] Настройка GRUB (отключение графики для ядра 6.6) ==="
+# 1. Пусть система генерирует свой стандартный конфиг
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# 2. МЕТОД КУВАЛДЫ: Находим в сгенерированном файле все строки запуска ядра 6.6 
+# и насильно приписываем 'nomodeset' в самый конец строки!
+sed -i '/linux[[:space:]]*\/boot\/vmlinuz-6.6.89-cix/ s/$/ nomodeset/' /boot/grub/grub.cfg
